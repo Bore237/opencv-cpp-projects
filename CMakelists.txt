@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.23)
+
+project(opencv_project LANGUAGES CXX)
+
+set(OpenCV_STATIC OFF)
+find_package(OpenCV REQUIRED)
+
+add_executable(opencv_project 
+                ${DIR}/main.cpp 
+                ${DIR}/morpho/Morphology.cpp) 
+
+target_link_libraries(opencv_project PRIVATE ${OpenCV_LIBS})
+
+# 2. Récupération du chemin exact du dossier "bin" d'OpenCV
+get_target_property(OPENCV_WORLD_PATH opencv_world IMPORTED_LOCATION_DEBUG)
+get_filename_component(OPENCV_BIN_DIR ${OPENCV_WORLD_PATH} DIRECTORY)
+
+# 3. Copie forcée du plugin FFMPEG depuis ce dossier bin
+add_custom_command(TARGET opencv_project POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${OPENCV_BIN_DIR}/opencv_videoio_ffmpeg4110_64.dll"
+    $<TARGET_RUNTIME_DLLS:opencv_project>
+    $<TARGET_FILE_DIR:opencv_project>
+    COMMAND_EXPAND_LISTS
+)
