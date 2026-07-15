@@ -71,10 +71,11 @@ Create or update your VS Code workspace settings:
 
 ```json
 {
-    "cmake.sourceDirectory": "D:/C_plus/projets/opencv/gui_interface",
-    "cmake.buildDirectory": "${sourceDir}/build",
+    "cmake.sourceDirectory": "D:/C_plus/projets/opencv",
+    "cmake.buildDirectory": "${sourceDir}/${your_workplace}/build",
     "cmake.configureSettings": {
-        "OpenCV_DIR": "C:/opencv/build/x64/vc16/lib"
+        "OpenCV_DIR": "C:/opencv/build/x64/vc16/lib",
+        "DIR": "${sourceDir}/${your_workplace}"
     },
     "terminal.integrated.env.windows": {
         "PATH": "C:\\opencv\\build\\x64\\vc16\\bin;${env:PATH}"
